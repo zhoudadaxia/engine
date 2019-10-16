@@ -34,4 +34,4 @@ GraySpriteState.prototype._switchGrayMaterial = function (useGrayMaterial, rende
     renderComp.setMaterial(0, material);
 };
 
-module.exports = GraySpriteState;
+cc.GraySpriteState = module.exports = GraySpriteState;
