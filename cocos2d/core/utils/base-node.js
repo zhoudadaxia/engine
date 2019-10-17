@@ -693,8 +693,24 @@ var BaseNode = cc.Class({
         if (this._parent) {
             if (cleanup === undefined)
                 cleanup = true;
-            this._parent.removeChild(this, cleanup);
+            
+            // this._parent.removeChild(this, cleanup);
+            this.removeNode(this, cleanup)
         }
+    },
+
+    /**
+     * 避开removeFromParent需要多一次遍历
+     * @author zhouye
+     * @date 2019-10-17 11:45:01
+     * @param {Node} node 
+     * @param {boolean} cleanup 
+     */
+    removeNode(node, cleanup){
+        if(cleanup) {
+            node.cleanup()
+        }
+        node.parent = null
     },
 
     /**
@@ -716,12 +732,15 @@ var BaseNode = cc.Class({
      */
     removeChild (child, cleanup) {
         if (this._children.indexOf(child) > -1) {
-            // If you don't do cleanup, the child's actions will not get removed and the
-            if (cleanup || cleanup === undefined) {
-                child.cleanup();
-            }
-            // invoke the parent setter
-            child.parent = null;
+            if (cleanup === undefined)
+                cleanup = true;
+            this.removeNode(child, cleanup)
+            // // If you don't do cleanup, the child's actions will not get removed and the
+            // if (cleanup || cleanup === undefined) {
+            //     child.cleanup();
+            // }
+            // // invoke the parent setter
+            // child.parent = null;
         }
     },
 
@@ -746,11 +765,12 @@ var BaseNode = cc.Class({
         for (var i = children.length - 1; i >= 0; i--) {
             var node = children[i];
             if (node) {
-                // If you don't do cleanup, the node's actions will not get removed and the
-                if (cleanup)
-                    node.cleanup();
+                this.removeNode(node, cleanup)
+                // // If you don't do cleanup, the node's actions will not get removed and the
+                // if (cleanup)
+                //     node.cleanup();
 
-                node.parent = null;
+                // node.parent = null;
             }
         }
         this._children.length = 0;
