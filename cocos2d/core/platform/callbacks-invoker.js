@@ -184,6 +184,40 @@ proto.removeAll = function (keyOrTarget) {
             }
         }
     }
+    else {
+        // remove all
+        for (let key in this._callbackTable) {
+            let list = this._callbackTable[key];
+            if (list) {
+                if (list.isInvoking) {
+                    list.cancelAll();
+                }
+                else {
+                    callbackListPool.put(list);
+                    delete this._callbackTable[keyOrTarget];
+                }
+            }
+        }
+    }
+};
+/**
+ * 这个函数删除当前 EventTarget 的所有事件监听器
+ * @author zhouye
+ */
+proto.removeAllall = function () {
+    // remove all
+    for (let key in this._callbackTable) {
+        let list = this._callbackTable[key];
+        if (list) {
+            if (list.isInvoking) {
+                list.cancelAll();
+            }
+            else {
+                callbackListPool.put(list);
+                delete this._callbackTable[key];
+            }
+        }
+    }
 };
 
 /**

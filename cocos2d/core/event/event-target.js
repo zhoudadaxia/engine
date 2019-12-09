@@ -173,6 +173,14 @@ proto.targetOff = function (target) {
 };
 
 /**
+ * 这个函数删除当前 EventTarget 的所有事件监听器
+ * @author zhouye
+ */
+proto.offAll = function () {
+    this.removeAllall();
+};
+
+/**
  * !#en
  * Register an callback of a specific event type on the EventTarget,
  * the callback will remove itself after the first time it is triggered.
