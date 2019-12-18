@@ -185,6 +185,10 @@ let RichText = cc.Class({
             notify: function (oldValue) {
                 if (this.fontSize === oldValue) return;
 
+                if (this.isLineHeightEqualToFontSize) {
+                    this.lineHeight = this.fontSize
+                }
+
                 this._layoutDirty = true;
                 this._updateRichTextStatus();
             }
@@ -323,6 +327,14 @@ let RichText = cc.Class({
                     this.handleTouchEvent ? this._addEventListeners() : this._removeEventListeners();
                 }
             }
+        },
+
+        /**
+         * 设置为true时，改变字体大小自动同步文字行高为字体尺寸
+         * @author zhouye
+         */
+        isLineHeightEqualToFontSize:{
+            default:false
         }
     },
 
